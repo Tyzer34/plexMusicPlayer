@@ -1,0 +1,58 @@
+{
+    "intents": [
+        {
+            "intent": "AMAZON.PauseIntent"
+        },
+        {
+            "intent": "AMAZON.ResumeIntent"
+        },
+      	{
+          	"intent": "AMAZON.NextIntent"
+        },
+        {
+            "intent": "AMAZON.StopIntent"
+        },
+        {
+            "intent": "AMAZON.PreviousIntent"
+        },
+      	{
+          	"intent": "AMAZON.ShuffleOnIntent"
+        },
+      	{
+          	"intent": "AMAZON.StartOverIntent"
+        },
+        {
+            "intent": "PlexPlayTrackIntent",
+          	"slots": [{
+              	"name": "track",
+              	"type": "AMAZON.MusicCreativeWorkType"
+            },{
+              	"name": "artist",
+              	"type": "AMAZON.MusicGroup"
+            }]
+        },
+        {
+            "intent": "PlexPlayAlbumIntent",
+          	"slots": [{
+              	"name": "album",
+              	"type": "AMAZON.MusicAlbum"
+            },{
+              	"name": "artist",
+              	"type": "AMAZON.MusicGroup"
+            }]
+        },
+        {
+            "intent": "PlexPlayArtistIntent",
+          	"slots": [{
+              	"name": "artist",
+              	"type": "AMAZON.MusicGroup"
+            }]
+        },
+        {
+            "intent": "PlexWhatSongIntent"
+        },
+      	{
+          	"intent": "PlexStatusIntent"
+        }
+    ]
+}

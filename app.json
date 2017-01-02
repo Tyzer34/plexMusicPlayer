@@ -1,0 +1,7 @@
+{
+  "name": "Plex Music Player",
+  "description": "An Alexa Skill deployment, based on Flask-Ask to playback music from a Plex server.",
+  "image": "heroku/python",
+  "repository": "https://github.com/Tyzer34/plexMusicPlayer.git",
+  "keywords": ["python", "flask-ask", "plex", "alexa", "amazon"]
+}
