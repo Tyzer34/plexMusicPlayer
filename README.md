@@ -7,7 +7,7 @@ As a developer, I wanted to broaden the spectrum a bit by giving Alexa users acc
 
 **Note that this skill is not made by nor supported by Plex!**
 ## The Setup
-First, you should have Heroku and Git installed on your local machine. If you have not yet worked with Heroku before, the installation process can be found here. Also, make sure that you are already logged in with Heroku account.
+First, you should have Heroku and Git installed on your local machine. If you have not yet worked with Heroku before, the installation process can be found [here](https://devcenter.heroku.com/articles/heroku-cli). Also, make sure that you are already logged in with Heroku account.
 
 Next, we want to clone the current GitHub repository of this project. First, open up a terminal (or command prompt) and navigate to the directory you want the files to be stored in. Then, use the following command to clone the repo.
 ```
@@ -24,7 +24,7 @@ The application should normally be online now! Now we just have to set the authe
 
 In order to authenticate the PlexMusicPlayer application, two environmental variables need to be set, namely the Plex token and the base url. 
 
-First, you will need to navigate to plex.tv/web/app, select a random episode, show, etc. and click the three dots on the left (as shown in the picture below in Dutch). Next, right click the Download option and select copy link address.
+First, you will need to navigate to [Plex](plex.tv/web/app), select a random episode, show, etc. and click the three dots on the left (as shown in the picture below in Dutch). Next, right click the Download option and select copy link address.
 
 The copied link address form should normally look something like this (with the parts filled in though):
 ```
