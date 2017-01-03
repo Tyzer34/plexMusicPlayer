@@ -20,12 +20,7 @@ PlexPlayArtistIntent play random songs from {artist}
 PlexPlayArtistIntent play what is popular from {artist}
 PlexPlayArtistIntent play music by {artist}
 
-PlexWhatSongIntent what this song is called
-PlexWhatSongIntent what is this song called
-PlexWhatSongIntent what is the name of this song
-PlexWhatSongIntent what song is this
-PlexWhatSongIntent what song this is
-PlexWhatSongIntent who sings this
-PlexWhatSongIntent who the artist is
-PlexWhatSongIntent what album this is from
 PlexWhatSongIntent for the name of this song
+PlexWhatSongIntent give me the name of this song
+PlexWhatSongIntent tell me what this song is called
+PlexWhatSongIntent tell me the name of this song

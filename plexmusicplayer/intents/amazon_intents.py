@@ -1,4 +1,5 @@
 from flask_ask import audio, statement, question
+from flask import request
 from plexmusicplayer import ask, queue, app
 from plexmusicplayer.utils import Track, QueueManager, MediaType
 
@@ -13,47 +14,41 @@ def new_ask():
         .reprompt(reprompt)
 
 @ask.on_playback_stopped()
-def stopped(offset):
-    queue._current.set_offset(offset)
-    app.logger.debug("Playback stopped at %s" % offset)
-
-@ask.on_playback_started()
-def started(offset):
-    app.logger.debug("Playback started at %s" % offset)
+def stopped():
+    offset = float(request.json['context']['AudioPlayer']['offsetInMilliseconds']) / 1000
+    queue.current.set_offset(offset)
+    print("Playback stopped at %s" % offset)
 
 @ask.on_playback_nearly_finished()
 def nearly_finished():
-    global queue
-    if queue.up_next:
-        return audio().enqueue(queue.up_next.stream_url)
+    next = queue.whats_next
+    if next:
+        return audio().enqueue(next.stream_url)
 
 @ask.on_playback_finished()
 def play_back_finished():
-    global queue
-    if queue.up_next:
-        queue.step()
+    if queue.whats_next:
+        queue.go_next()
 
 @ask.intent('AMAZON.NextIntent')
 def next_song():
-    global queue
-    if queue.up_next:
-        return audio("").play(queue.step().stream_url)
+    print(request.data)
+    if queue.whats_next:
+        return audio("").play(queue.go_next().stream_url)
     else:
-        return audio("").stop()
+        return audio("Sorry, something went wrong selecting the next song.").stop()
 
 @ask.intent('AMAZON.PreviousIntent')
 def previous_song():
-    global queue
-    if queue.previous:
-        return audio("").play(queue.step_back().stream_url)
+    if queue.whats_prev:
+        return audio("").play(queue.go_prev().stream_url)
     else:
-        return statement("")
+        return audio("Sorry, something went wrong selecting the previous song.").stop()
 
 @ask.intent('AMAZON.StartOverIntent')
 def restart_track():
-    global queue
     if queue.current:
-        return audio("").play(queue.current, offset=0)
+        return audio("").play(queue.current.stream_url, offset=0)
 
 @ask.intent('AMAZON.PauseIntent')
 def pause():
@@ -61,7 +56,9 @@ def pause():
 
 @ask.intent('AMAZON.ResumeIntent')
 def resume():
-    return audio("").play(queue._current.stream_url, offset=queue._current.offset)
+    response = audio("").play(queue.current.stream_url, offset=queue.current.offset)
+    print(response)
+    return response
 
 @ask.intent('AMAZON.ShuffleOnIntent')
 def shuffle():

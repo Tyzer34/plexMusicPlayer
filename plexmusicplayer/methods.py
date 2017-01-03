@@ -79,15 +79,18 @@ def processQuery(query, mediaType):
     searchQueryUrl = base_url + "/search?query=" + query + "&" + plex_token + "&type=" + mediaType.value
     json_obj = getJsonFromPlex(searchQueryUrl)
     playlist = []
-    speech = "I wasn't able to locate the music you requested."
-    if (mediaType == MediaType.Track):
-        track, server = parseTrackJson(json_obj)
-        speech = "Playing " + track.title + " by " + track.artist + " from " + server + "."
-        playlist.append(track)
-    elif (mediaType == MediaType.Album):
-        album, artist, server, playlist = parseAlbumJson(json_obj)
-        speech = "Playing " + album + " by " + artist + " from " + server + "."
-    elif (mediaType == MediaType.Artist):
-        artist, server, playlist = parseArtistJson(json_obj)
-        speech = "Playing " + artist + " from " + server + "."
-    return speech, playlist
+    try:
+        if (mediaType == MediaType.Track):
+            track, server = parseTrackJson(json_obj)
+            speech = "Playing " + track.title + " by " + track.artist + " from " + server + "."
+            playlist.append(track)
+        elif (mediaType == MediaType.Album):
+            album, artist, server, playlist = parseAlbumJson(json_obj)
+            speech = "Playing " + album + " by " + artist + " from " + server + "."
+        elif (mediaType == MediaType.Artist):
+            artist, server, playlist = parseArtistJson(json_obj)
+            speech = "Playing " + artist + " from " + server + "."
+        return speech, playlist
+    except:
+        speech = "I was not able to find " + query + " in your library."
+        return speech, []

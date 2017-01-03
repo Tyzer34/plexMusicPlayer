@@ -1,4 +1,4 @@
-from flask_ask import audio, statement
+from flask_ask import audio, statement, question
 from plexmusicplayer import ask, queue, app
 from plexmusicplayer.utils import Track, QueueManager, MediaType
 import plexmusicplayer.methods as methods
@@ -8,31 +8,35 @@ import plexmusicplayer.methods as methods
 
 @ask.intent('PlexPlayTrackIntent')
 def playTrack(track):
-    global queue
     speech, playlist = methods.processQuery(track, MediaType.Track)
-    curTrack = queue.setQueue(playlist)
-    return audio(speech).play(curTrack.stream_url)
+    return makeRespone(speech, playlist)
 
 @ask.intent('PlexPlayAlbumIntent')
 def playAlbum(album):
-    global queue
     speech, playlist = methods.processQuery(album, MediaType.Album)
-    curTrack = queue.setQueue(playlist)
-    return audio(speech).play(curTrack.stream_url)
+    return makeRespone(speech, playlist)
 
 @ask.intent('PlexPlayArtistIntent')
 def playArtist(artist):
-    global queue
     speech, playlist = methods.processQuery(artist, MediaType.Artist)
-    curTrack = queue.setQueue(playlist)
-    return audio(speech).play(curTrack.stream_url)
+    return makeRespone(speech, playlist)
 
 @ask.intent('PlexWhatSongIntent')
 def whatSong():
-    global queue
-    curTrack = queue._current
-    if curTrack:
-        speech = "The song being played, is called " + curTrack.title + " by " + curTrack.artist + ", taken from the album " + curTrack.album + "."
+    curTrack = queue.current
+    if curTrack is None:
+        speech = "The current song could not be requested at this moment."
     else:
-        speech = "Sorry, there was a problem calling the current song."
+        speech = "The song being played, is called " + curTrack.title + " by " + curTrack.artist + ", taken from the album " + curTrack.album + "."
     return statement(speech)
+
+@ask.intent('PlexStatusIntent')
+def status():
+    return statement(queue.status)
+
+def makeRespone(speech, playlist):
+    if playlist != []:
+        curTrack = queue.setQueue(playlist)
+        return audio(speech).play(curTrack.stream_url)
+    else:
+        return statement(speech)

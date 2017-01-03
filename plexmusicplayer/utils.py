@@ -1,3 +1,4 @@
+from multiprocessing import Value
 import collections
 import random
 from enum import Enum
@@ -9,105 +10,69 @@ import copy
 class QueueManager(object):
 
     def __init__(self):
-        self._urls = []
-        self._queued = collections.deque()
-        self._history = collections.deque()
-        self._current = None
+        self._playlist = []
+        self._counter = Value('i', 0)
 
     @property
     def status(self):
-        status = {
-            'Current Position': self.current_position,
-            'Current URl': self.current,
-            'Next URL': self.up_next,
-            'Previous': self.previous,
-            'History': list(self.history)
-        }
+        playlistCount = len(self._playlist)
+        status = 'Current Queue Status: Songs in Queue ' + str(playlistCount) + ' | Current Song is ' + str(self.current) + " | Songs left to Play are: "
+        for i in range(self._counter.value + 1, len(self._playlist)):
+            status += str(self._playlist[i]) + ', '
         return status
 
     @property
-    def up_next(self):
-        """Returns the url at the front of the queue"""
-        qcopy = self._queued.copy()
-        try:
-            return qcopy.popleft()
-        except IndexError:
+    def whats_next(self):
+        if self._counter.value < len(self._playlist) - 1:
+            return self._playlist[self._counter.value + 1]
+        else:
             return None
 
     @property
     def current(self):
-        return self._current
-
-    @current.setter
-    def current(self, url):
-        self._save_to_history()
-        self._current = url
+        with self._counter.get_lock():
+            print ("Current counter value: " + str(self._counter.value))
+            return self._playlist[self._counter.value]
 
     @property
-    def history(self):
-        return self._history
-
-    @property
-    def previous(self):
-        history = self.history.copy()
-        try:
-            return history.pop()
-        except IndexError:
+    def whats_prev(self):
+        if self._counter.value > 0:
+            return self._playlist[self._counter.value - 1]
+        else:
             return None
 
     def add(self, url):
-        self._urls.append(url)
-        self._queued.append(url)
+        self._playlist.append(url)
 
-    def extend(self, urls):
-        self._urls.extend(urls)
-        self._queued.extend(urls)
+    def go_next(self):
+        with self._counter.get_lock():
+            self._counter.value += 1
+        return self._playlist[self._counter.value]
 
-    def _save_to_history(self):
-        if self._current:
-            self._history.append(self._current)
-
-    def end_current(self):
-        self._save_to_history()
-        self._current = None
-
-    def step(self):
-        self.end_current()
-        self._current = self._queued.popleft()
-        return self._current
-
-    def step_back(self):
-        self._queued.appendleft(self._current)
-        self._current = self._history.pop()
-        return self._current
+    def go_prev(self):
+        with self._counter.get_lock():
+            self._counter.value -= 1
+        return self._playlist[self._counter.value]
 
     def reset(self):
-        self._queued = collections.deque(self._urls)
-        self._history = []
-
-    def start(self):
-        return self.step()
+        with self._counter.get_lock():
+            self._counter.value = 0
 
     @property
     def current_position(self):
-        return len(self._history) + 1
+        return self._counter.value
 
     def shuffle(self):
-        shuffle = []
-        for i in range(len(self._queued)):
-            shuffle.append(self._queued.popleft())
+        shuffle = [self._playlist[(self._counter.value+1):]]
         random.shuffle(shuffle)
-        for track in shuffle:
-            self._queued.appendleft(track)
+        self._playlist = self._playlist[:(self._counter.value+1)] + shuffle
 
     def setQueue(self, urls):
-        self._urls = urls
-        try:
-            self._queued = collections.deque(urls)
-            self.reset()
-            return self.start()
-        except IndexError:
-            return None
+        self.reset()
+        del self._playlist
+        self._playlist = []
+        self._playlist.extend(urls)
+        return self.current
 
 
 class MediaType(Enum):
