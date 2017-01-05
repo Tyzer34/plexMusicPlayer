@@ -31,12 +31,14 @@ def parseTrackJson(json_obj):
     directory = json_obj['MediaContainer']['Track']
     print(directory)
     if isinstance(directory, list):
+        print('list')
         server = json_obj['MediaContainer']['Track'][0]['@sourceTitle']
         title = json_obj['MediaContainer']['Track'][0]['@title']
         album = json_obj['MediaContainer']['Track'][0]['@parentTitle']
         artist = json_obj['MediaContainer']['Track'][0]['@originalTitle']
         sub_url = json_obj['MediaContainer']['Track'][0]['Media']['Part']['@key']
     else:    
+        print('not a list')
         server = json_obj['MediaContainer']['Track']['@sourceTitle']
         title = json_obj['MediaContainer']['Track']['@title']
         album = json_obj['MediaContainer']['Track']['@parentTitle']
