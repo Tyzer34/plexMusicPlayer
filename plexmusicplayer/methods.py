@@ -3,6 +3,9 @@ from os import environ
 import requests
 import xmltodict
 import json
+import logging
+
+logger = logging.getLogger('scope.name')
 
 base_url = environ['PLEX_URL']
 plex_token = "X-Plex-Token=" + environ['PLEX_TOKEN']
@@ -35,6 +38,7 @@ def parseTrackJson(json_obj):
     return Track(title, album, artist, stream_url), server
 
 def parseAlbumJson(json_obj):
+    logger = logging.getLogger(json_obj)
     playlist = []
     album = json_obj['MediaContainer']['Directory']['@title']
     artist = json_obj['MediaContainer']['Directory']['@parentTitle']
