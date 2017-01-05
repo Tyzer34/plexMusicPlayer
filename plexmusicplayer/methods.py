@@ -39,8 +39,13 @@ def parseTrackJson(json_obj):
 
 def parseAlbumJson(json_obj):
     playlist = []
-    album = json_obj['MediaContainer']['Directory']['@title']
-    logging.debug(json_obj)
+    directory = json_obj['MediaContainer']['Directory']
+    logging.debug(directory)
+    if (isinstacne(directory, list))
+        directory = directory[0]
+    logging.debug(directory)    
+    album = directory['@title']
+    logging.debug(album)
     artist = json_obj['MediaContainer']['Directory']['@parentTitle']
     server = json_obj['MediaContainer']['Directory']['@sourceTitle']
     sub_url = json_obj['MediaContainer']['Directory']['@key']
