@@ -41,7 +41,7 @@ def parseAlbumJson(json_obj):
     playlist = []
     directory = json_obj['MediaContainer']['Directory']
     logging.debug(directory)
-    if (isinstacne(directory, list))
+    if isinstacne(directory, list):
         directory = directory[0]
     logging.debug(directory)    
     album = directory['@title']
