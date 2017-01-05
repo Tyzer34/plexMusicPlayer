@@ -42,12 +42,16 @@ def parseAlbumJson(json_obj):
     directory = json_obj['MediaContainer']['Directory']
     if isinstance(directory, list):
         album = json_obj['MediaContainer']['Directory'][0]['@title']
+        artist = json_obj['MediaContainer']['Directory'][0]['@parentTitle']
+        server = json_obj['MediaContainer']['Directory'][0]['@sourceTitle']
+        sub_url = json_obj['MediaContainer']['Directory'][0]['@key']
     else:        
         album = json_obj['MediaContainer']['Directory']['@title']
-    print(album)
-    artist = json_obj['MediaContainer']['Directory']['@parentTitle']
-    server = json_obj['MediaContainer']['Directory']['@sourceTitle']
-    sub_url = json_obj['MediaContainer']['Directory']['@key']
+        artist = json_obj['MediaContainer']['Directory']['@parentTitle']
+        server = json_obj['MediaContainer']['Directory']['@sourceTitle']
+        sub_url = json_obj['MediaContainer']['Directory']['@key']
+    print(album)    
+    
     album_url = getLookupUrl(sub_url)
     json_album = getJsonFromPlex(album_url)
     if '@title' in json_album['MediaContainer']['Track']:
