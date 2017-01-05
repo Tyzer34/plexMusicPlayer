@@ -43,7 +43,7 @@ def parseTrackJson(json_obj):
 def parseAlbumJson(json_obj):
     playlist = []
 
-    print('hi')
+    print "hi"
 
     logging.warning('warrning')
     logging.info('info')
