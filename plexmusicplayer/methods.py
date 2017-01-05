@@ -45,6 +45,7 @@ def parseTrackJson(json_obj):
         artist = json_obj['MediaContainer']['Track']['@originalTitle']
         sub_url = json_obj['MediaContainer']['Track']['Media']['Part']['@key']
     
+    print(sub_url)
     stream_url = getStreamUrl(sub_url)
     return Track(title, album, artist, stream_url), server
 
@@ -63,8 +64,7 @@ def parseAlbumJson(json_obj):
         artist = json_obj['MediaContainer']['Directory']['@parentTitle']
         server = json_obj['MediaContainer']['Directory']['@sourceTitle']
         sub_url = json_obj['MediaContainer']['Directory']['@key']
-    print(album)    
-    
+   
     album_url = getLookupUrl(sub_url)
     json_album = getJsonFromPlex(album_url)
     if '@title' in json_album['MediaContainer']['Track']:
