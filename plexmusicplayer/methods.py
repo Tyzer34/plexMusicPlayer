@@ -8,11 +8,11 @@ import logging
 #logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 logging.basicConfig(level=logging.DEBUG)
 
-#base_url = environ['PLEX_URL']
-base_url = "https://68-84-99-171.ee51a749bffb4ba6a60b868cba10a375.plex.direct:32400"
+base_url = environ['PLEX_URL']
+#base_url = "https://68-84-99-171.ee51a749bffb4ba6a60b868cba10a375.plex.direct:32400"
 
-#plex_token = "X-Plex-Token=" + environ['PLEX_TOKEN']
-plex_token = "X-Plex-Token=DxBU3WYLpuRQzpJ3RkRK"
+plex_token = "X-Plex-Token=" + environ['PLEX_TOKEN']
+#plex_token = "X-Plex-Token=DxBU3WYLpuRQzpJ3RkRK"
 # --------------------------------------------------------------------------------------------
 # Plex Music Player - Methods
 
@@ -40,17 +40,11 @@ def parseTrackJson(json_obj):
     stream_url = getStreamUrl(sub_url)
     return Track(title, album, artist, stream_url), server
 
+
 def parseAlbumJson(json_obj):
     playlist = []
-    logging.debug("parse album")
     logging.debug(json_obj)
-    directory = json_obj['MediaContainer']['Directory']
-    logging.debug(directory)
-    #if isinstacne(directory, list):
-    #    directory = directory[0]
-    #logging.debug(directory)    
- #   album = directory['@title']
-#    logging.debug(album)
+    
     album = json_obj['MediaContainer']['Directory']['@title']
     artist = json_obj['MediaContainer']['Directory']['@parentTitle']
     server = json_obj['MediaContainer']['Directory']['@sourceTitle']
@@ -64,7 +58,7 @@ def parseAlbumJson(json_obj):
         sub_url = track['Media']['Part']['@key']
         stream_url = getStreamUrl(sub_url)
         playlist.append(Track(title, album, artist, stream_url))
-    return album, artist, server, playlist
+return album, artist, server, playlist
 
 def parseArtistJson(json_obj):
     playlist = []
