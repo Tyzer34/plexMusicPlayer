@@ -5,7 +5,7 @@ import xmltodict
 import json
 import logging
 
-#logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.DEBUG)
 
 base_url = environ['PLEX_URL']
 #base_url = "https://68-84-99-171.ee51a749bffb4ba6a60b868cba10a375.plex.direct:32400"
