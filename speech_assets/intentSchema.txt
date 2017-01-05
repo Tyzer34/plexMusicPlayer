@@ -26,9 +26,16 @@
           	"slots": [{
               	"name": "track",
               	"type": "AMAZON.MusicCreativeWorkType"
+            }]
+        },
+        {
+            "intent": "PlexPlayTrackByArtistIntent",
+            "slots": [{
+                "name": "track",
+                "type": "AMAZON.MusicCreativeWorkType"
             },{
-              	"name": "artist",
-              	"type": "AMAZON.MusicGroup"
+                "name": "artist",
+                "type": "AMAZON.MusicGroup"
             }]
         },
         {
@@ -36,9 +43,16 @@
           	"slots": [{
               	"name": "album",
               	"type": "AMAZON.MusicAlbum"
+            }]
+        },
+        {
+            "intent": "PlexPlayAlbumByArtistIntent",
+            "slots": [{
+                "name": "album",
+                "type": "AMAZON.MusicAlbum"
             },{
-              	"name": "artist",
-              	"type": "AMAZON.MusicGroup"
+                "name": "artist",
+                "type": "AMAZON.MusicGroup"
             }]
         },
         {

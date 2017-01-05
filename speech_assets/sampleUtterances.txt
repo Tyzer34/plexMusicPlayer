@@ -4,15 +4,17 @@ PlexStatusIntent status
 PlexPlayTrackIntent play {track}
 PlexPlayTrackIntent play the song {track}
 PlexPlayTrackIntent play the song called {track}
-PlexPlayTrackIntent play {track} from {artist}
-PlexPlayTrackIntent play {track} by {artist}
+
+PlexPlayTrackByArtistIntent play {track} from {artist}
+PlexPlayTrackByArtistIntent play {track} by {artist}
 
 PlexPlayAlbumIntent play {album}
 PlexPlayAlbumIntent play the album {album}
 PlexPlayAlbumIntent play the album called {album}
 PlexPlayAlbumIntent play songs from {album}
-PlexPlayAlbumIntent play {album} from {artist}
-PlexPlayAlbumIntent play {album} by {artist}
+
+PlexPlayAlbumByArtistIntent play {album} from {artist}
+PlexPlayAlbumByArtistIntent play {album} by {artist}
 
 PlexPlayArtistIntent play {artist}
 PlexPlayArtistIntent play songs from {artist}
