@@ -28,7 +28,7 @@ def getJsonFromPlex(url):
 def parseTrackJson(json_obj):
     print('parseTrackJson')
 
-    directory = json_obj['MediaContainer']['Directory']
+    directory = json_obj['MediaContainer']['Track']
     if isinstance(directory, list):
         server = json_obj['MediaContainer']['Track'][0]['@sourceTitle']
         title = json_obj['MediaContainer']['Track'][0]['@title']
