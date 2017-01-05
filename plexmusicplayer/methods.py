@@ -43,7 +43,7 @@ def parseTrackJson(json_obj):
 def parseAlbumJson(json_obj):
     playlist = []
 
-    print "hi"
+    print("hi")
 
     album = json_obj['MediaContainer']['Directory']['@title']
     artist = json_obj['MediaContainer']['Directory']['@parentTitle']
