@@ -29,6 +29,7 @@ def parseTrackJson(json_obj):
     print('parseTrackJson')
 
     directory = json_obj['MediaContainer']['Track']
+    print(directory)
     if isinstance(directory, list):
         server = json_obj['MediaContainer']['Track'][0]['@sourceTitle']
         title = json_obj['MediaContainer']['Track'][0]['@title']
