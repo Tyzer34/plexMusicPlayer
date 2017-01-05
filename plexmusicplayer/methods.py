@@ -31,12 +31,9 @@ def parseTrackJson(json_obj):
     directory = json_obj['MediaContainer']['Track']
     if isinstance(directory, list):
         server = json_obj['MediaContainer']['Track'][0]['@sourceTitle']
-        print(server)
         title = json_obj['MediaContainer']['Track'][0]['@title']
-        print(title)
         album = json_obj['MediaContainer']['Track'][0]['@parentTitle']
-        print(album)
-        artist = json_obj['MediaContainer']['Track'][0]['@originalTitle']
+        artist = json_obj['MediaContainer']['Track'][0]['@grandparentTitle']
         print(artist)
         sub_url = json_obj['MediaContainer']['Track'][0]['Media']['Part']['@key']
         print(sub_url)
@@ -45,7 +42,7 @@ def parseTrackJson(json_obj):
         server = json_obj['MediaContainer']['Track']['@sourceTitle']
         title = json_obj['MediaContainer']['Track']['@title']
         album = json_obj['MediaContainer']['Track']['@parentTitle']
-        artist = json_obj['MediaContainer']['Track']['@originalTitle']
+        artist = json_obj['MediaContainer']['Track']['@grandparentTitle']
         sub_url = json_obj['MediaContainer']['Track']['Media']['Part']['@key']
     
     print(sub_url)
