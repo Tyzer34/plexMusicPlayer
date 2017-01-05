@@ -40,9 +40,7 @@ def parseAlbumJson(json_obj):
     
     playlist = []
     directory = json_obj['MediaContainer']['Directory']
-    print(directory)
     album = directory['@title']
-    print('album')
     print(album)
     artist = json_obj['MediaContainer']['Directory']['@parentTitle']
     server = json_obj['MediaContainer']['Directory']['@sourceTitle']
