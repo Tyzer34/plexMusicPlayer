@@ -44,7 +44,7 @@ def parseTrackJson(json_obj):
 def parseAlbumJson(json_obj):
     playlist = []
     logging.debug(json_obj)
-    
+
     album = json_obj['MediaContainer']['Directory']['@title']
     artist = json_obj['MediaContainer']['Directory']['@parentTitle']
     server = json_obj['MediaContainer']['Directory']['@sourceTitle']
@@ -58,7 +58,7 @@ def parseAlbumJson(json_obj):
         sub_url = track['Media']['Part']['@key']
         stream_url = getStreamUrl(sub_url)
         playlist.append(Track(title, album, artist, stream_url))
-return album, artist, server, playlist
+    return album, artist, server, playlist
 
 def parseArtistJson(json_obj):
     playlist = []
