@@ -34,9 +34,7 @@ def parseTrackJson(json_obj):
         title = json_obj['MediaContainer']['Track'][0]['@title']
         album = json_obj['MediaContainer']['Track'][0]['@parentTitle']
         artist = json_obj['MediaContainer']['Track'][0]['@grandparentTitle']
-        print(artist)
         sub_url = json_obj['MediaContainer']['Track'][0]['Media']['Part']['@key']
-        print(sub_url)
     else:    
         print('not a list')
         server = json_obj['MediaContainer']['Track']['@sourceTitle']
@@ -45,7 +43,6 @@ def parseTrackJson(json_obj):
         artist = json_obj['MediaContainer']['Track']['@grandparentTitle']
         sub_url = json_obj['MediaContainer']['Track']['Media']['Part']['@key']
     
-    print(sub_url)
     stream_url = getStreamUrl(sub_url)
     return Track(title, album, artist, stream_url), server
 
