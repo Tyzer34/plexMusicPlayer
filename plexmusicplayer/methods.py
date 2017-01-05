@@ -41,7 +41,7 @@ def parseTrackJson(json_obj):
 
 def parseAlbumJson(json_obj):
     playlist = []
-    logging.debug('parseAlbumJson')
+    logging.debug(json_obj)
     directory = json_obj['MediaContainer']['Directory']
     logging.debug(directory)
     #if isinstacne(directory, list):
