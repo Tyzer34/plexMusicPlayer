@@ -85,6 +85,9 @@ def parseArtistJson(json_obj):
 
 def processQuery(query, mediaType):
     global base_url, plex_token
+
+    print('processQuery')
+
     searchQueryUrl = base_url + "/search?query=" + query + "&" + plex_token + "&type=" + mediaType.value
     json_obj = getJsonFromPlex(searchQueryUrl)
     playlist = []
