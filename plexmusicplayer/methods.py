@@ -3,15 +3,10 @@ from os import environ
 import requests
 import xmltodict
 import json
-import logging
-
-logging.basicConfig(level=logging.DEBUG)
 
 base_url = environ['PLEX_URL']
-#base_url = "https://68-84-99-171.ee51a749bffb4ba6a60b868cba10a375.plex.direct:32400"
-
 plex_token = "X-Plex-Token=" + environ['PLEX_TOKEN']
-#plex_token = "X-Plex-Token=DxBU3WYLpuRQzpJ3RkRK"
+
 # --------------------------------------------------------------------------------------------
 # Plex Music Player - Methods
 
@@ -39,12 +34,9 @@ def parseTrackJson(json_obj):
     stream_url = getStreamUrl(sub_url)
     return Track(title, album, artist, stream_url), server
 
-
 def parseAlbumJson(json_obj):
+    print(json_obj)
     playlist = []
-
-    print("hi")
-
     album = json_obj['MediaContainer']['Directory']['@title']
     artist = json_obj['MediaContainer']['Directory']['@parentTitle']
     server = json_obj['MediaContainer']['Directory']['@sourceTitle']
@@ -85,9 +77,6 @@ def parseArtistJson(json_obj):
 
 def processQuery(query, mediaType):
     global base_url, plex_token
-
-    print('processQuery')
-
     searchQueryUrl = base_url + "/search?query=" + query + "&" + plex_token + "&type=" + mediaType.value
     json_obj = getJsonFromPlex(searchQueryUrl)
     playlist = []
