@@ -26,6 +26,7 @@ def getJsonFromPlex(url):
     return json_obj
 
 def parseTrackJson(json_obj):
+    print('parseTrackJson')
     server = json_obj['MediaContainer']['Track']['@sourceTitle']
     title = json_obj['MediaContainer']['Track']['@title']
     album = json_obj['MediaContainer']['Track']['@parentTitle']
@@ -35,7 +36,7 @@ def parseTrackJson(json_obj):
     return Track(title, album, artist, stream_url), server
 
 def parseAlbumJson(json_obj):
-    print(json_obj)
+    print('parseAlbumJson')
     playlist = []
     album = json_obj['MediaContainer']['Directory']['@title']
     artist = json_obj['MediaContainer']['Directory']['@parentTitle']
@@ -53,6 +54,7 @@ def parseAlbumJson(json_obj):
     return album, artist, server, playlist
 
 def parseArtistJson(json_obj):
+    print('parseArtistJson')
     playlist = []
     artist = json_obj['MediaContainer']['Directory']['@title']
     server = json_obj['MediaContainer']['Directory']['@sourceTitle']
