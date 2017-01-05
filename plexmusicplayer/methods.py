@@ -45,12 +45,6 @@ def parseAlbumJson(json_obj):
 
     print "hi"
 
-    logging.warning('warrning')
-    logging.info('info')
-    logging.debug('debug')
-    logging.warning(json_obj)
-    logging.debug(json_obj)
-
     album = json_obj['MediaContainer']['Directory']['@title']
     artist = json_obj['MediaContainer']['Directory']['@parentTitle']
     server = json_obj['MediaContainer']['Directory']['@sourceTitle']
