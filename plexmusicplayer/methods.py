@@ -26,20 +26,42 @@ def getJsonFromPlex(url):
     return json_obj
 
 def parseTrackJson(json_obj):
-    server = json_obj['MediaContainer']['Track']['@sourceTitle']
-    title = json_obj['MediaContainer']['Track']['@title']
-    album = json_obj['MediaContainer']['Track']['@parentTitle']
-    artist = json_obj['MediaContainer']['Track']['@originalTitle']
-    sub_url = json_obj['MediaContainer']['Track']['Media']['Part']['@key']
+    print('parseTrackJson')
+
+    directory = json_obj['MediaContainer']['Track']
+    if isinstance(directory, list):
+        server = json_obj['MediaContainer']['Track'][0]['@sourceTitle']
+        title = json_obj['MediaContainer']['Track'][0]['@title']
+        album = json_obj['MediaContainer']['Track'][0]['@parentTitle']
+        artist = json_obj['MediaContainer']['Track'][0]['@grandparentTitle']
+        sub_url = json_obj['MediaContainer']['Track'][0]['Media']['Part']['@key']
+    else:    
+        print('not a list')
+        server = json_obj['MediaContainer']['Track']['@sourceTitle']
+        title = json_obj['MediaContainer']['Track']['@title']
+        album = json_obj['MediaContainer']['Track']['@parentTitle']
+        artist = json_obj['MediaContainer']['Track']['@grandparentTitle']
+        sub_url = json_obj['MediaContainer']['Track']['Media']['Part']['@key']
+    
     stream_url = getStreamUrl(sub_url)
     return Track(title, album, artist, stream_url), server
 
 def parseAlbumJson(json_obj):
+    print('parseAlbumJson')
+    
     playlist = []
-    album = json_obj['MediaContainer']['Directory']['@title']
-    artist = json_obj['MediaContainer']['Directory']['@parentTitle']
-    server = json_obj['MediaContainer']['Directory']['@sourceTitle']
-    sub_url = json_obj['MediaContainer']['Directory']['@key']
+    directory = json_obj['MediaContainer']['Directory']
+    if isinstance(directory, list):
+        album = json_obj['MediaContainer']['Directory'][0]['@title']
+        artist = json_obj['MediaContainer']['Directory'][0]['@parentTitle']
+        server = json_obj['MediaContainer']['Directory'][0]['@sourceTitle']
+        sub_url = json_obj['MediaContainer']['Directory'][0]['@key']
+    else:        
+        album = json_obj['MediaContainer']['Directory']['@title']
+        artist = json_obj['MediaContainer']['Directory']['@parentTitle']
+        server = json_obj['MediaContainer']['Directory']['@sourceTitle']
+        sub_url = json_obj['MediaContainer']['Directory']['@key']
+   
     album_url = getLookupUrl(sub_url)
     json_album = getJsonFromPlex(album_url)
     if '@title' in json_album['MediaContainer']['Track']:
@@ -52,10 +74,19 @@ def parseAlbumJson(json_obj):
     return album, artist, server, playlist
 
 def parseArtistJson(json_obj):
+    print('parseArtistJson')
     playlist = []
-    artist = json_obj['MediaContainer']['Directory']['@title']
-    server = json_obj['MediaContainer']['Directory']['@sourceTitle']
-    sub_url = json_obj['MediaContainer']['Directory']['@key']
+
+    directory = json_obj['MediaContainer']['Directory']
+    if isinstance(directory, list):
+        artist = json_obj['MediaContainer']['Directory'][0]['@title']
+        server = json_obj['MediaContainer']['Directory'][0]['@sourceTitle']
+        sub_url = json_obj['MediaContainer']['Directory'][0]['@key']
+    else:    
+        artist = json_obj['MediaContainer']['Directory']['@title']
+        server = json_obj['MediaContainer']['Directory']['@sourceTitle']
+        sub_url = json_obj['MediaContainer']['Directory']['@key']
+    
     artist_url = getLookupUrl(sub_url)
     json_artist = getJsonFromPlex(artist_url)
     if '@title' in json_artist['MediaContainer']['Directory']:
