@@ -4,3 +4,4 @@ Flask-Ask==0.8.3
 Jinja2==2.8
 xmltodict==0.10.2
 requests==2.12.4
+waitress==1.0.1
