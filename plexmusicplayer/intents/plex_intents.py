@@ -16,16 +16,6 @@ def playAlbum(album):
     speech, playlist = methods.processQuery(album, MediaType.Album)
     return makeRespone(speech, playlist)
 
-@ask.intent('PlexPlayTrackByArtistIntent')
-def playTrack(track):
-    speech, playlist = methods.processQuery(track, MediaType.Track)
-    return makeRespone(speech, playlist)
-
-@ask.intent('PlexPlayAlbumByArtistIntent')
-def playAlbum(album):
-    speech, playlist = methods.processQuery(album, MediaType.Album)
-    return makeRespone(speech, playlist)
-
 @ask.intent('PlexPlayArtistIntent')
 def playArtist(artist):
     speech, playlist = methods.processQuery(artist, MediaType.Artist)

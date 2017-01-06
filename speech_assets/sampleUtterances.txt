@@ -1,21 +1,23 @@
 PlexStatusIntent give me a status update
 PlexStatusIntent status
 
+PlexPlayTrackIntent play {track}
 PlexPlayTrackIntent play the song {track}
 PlexPlayTrackIntent play the song called {track}
-PlexPlayTrackIntent play the track called {track}
+PlexPlayTrackIntent play {track} from {artist}
+PlexPlayTrackIntent play {track} by {artist}
 
-PlexPlayTrackByArtistIntent play the song {track} by {artist}
-PlexPlayTrackByArtistIntent play the track {track} by {artist}
-
+PlexPlayAlbumIntent play {album}
 PlexPlayAlbumIntent play the album {album}
 PlexPlayAlbumIntent play the album called {album}
-
-PlexPlayAlbumByArtistIntent play the album {album} from {artist}
-PlexPlayAlbumByArtistIntent play the album {album} by {artist}
+PlexPlayAlbumIntent play songs from {album}
+PlexPlayAlbumIntent play {album} from {artist}
+PlexPlayAlbumIntent play {album} by {artist}
 
 PlexPlayArtistIntent play {artist}
 PlexPlayArtistIntent play songs from {artist}
+PlexPlayArtistIntent play random songs from {artist}
+PlexPlayArtistIntent play what is popular from {artist}
 PlexPlayArtistIntent play music by {artist}
 
 PlexWhatSongIntent for the name of this song
