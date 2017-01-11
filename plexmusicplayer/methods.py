@@ -78,6 +78,8 @@ def parseArtistJson(json_obj):
     playlist = []
 
     directory = json_obj['MediaContainer']['Directory']
+    print('directory=')
+    print(directory)
     if isinstance(directory, list):
         artist = json_obj['MediaContainer']['Directory'][0]['@title']
         server = json_obj['MediaContainer']['Directory'][0]['@sourceTitle']
