@@ -80,6 +80,10 @@ def parseArtistJson(json_obj):
 
     print('json_obj=')
     print(json_obj)
+
+    if json_obj is None:
+        print('json_obj has no value')
+        
     directory = json_obj['MediaContainer']['Directory']
     print('directory=')
     print(directory)
