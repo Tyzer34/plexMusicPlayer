@@ -81,12 +81,12 @@ def parseArtistJson(json_obj):
     print('json_obj=')
     print(json_obj)
 
-    if json_obj is None:
+    if json_obj:
         print('json_obj has no value')
-        
+    else:
+        print('json obj has a value')
+
     directory = json_obj['MediaContainer']['Directory']
-    print('directory=')
-    print(directory)
     if isinstance(directory, list):
         artist = json_obj['MediaContainer']['Directory'][0]['@title']
         server = json_obj['MediaContainer']['Directory'][0]['@sourceTitle']
