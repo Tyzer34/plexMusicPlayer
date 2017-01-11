@@ -77,6 +77,8 @@ def parseArtistJson(json_obj):
     print('parseArtistJson')
     playlist = []
 
+    print('json_obj=')
+    print(json_obj)
     directory = json_obj['MediaContainer']['Directory']
     print('directory=')
     print(directory)
