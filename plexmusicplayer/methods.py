@@ -77,15 +77,6 @@ def parseArtistJson(json_obj):
     print('parseArtistJson')
     playlist = []
 
-
-    print('json_obj=')
-    print(json_obj)
-
-    if json_obj:
-        print('json_obj has no value')
-    else:
-        print('json obj has a value')
-
     directory = json_obj['MediaContainer']['Directory']
     if isinstance(directory, list):
         artist = json_obj['MediaContainer']['Directory'][0]['@title']
@@ -118,6 +109,15 @@ def processQuery(query, mediaType):
     global base_url, plex_token
     searchQueryUrl = base_url + "/search?query=" + query + "&" + plex_token + "&type=" + mediaType.value
     json_obj = getJsonFromPlex(searchQueryUrl)
+
+    if json_obj:
+        query.replace(" ","")
+        print(query)
+        searchQueryUrl = base_url + "/search?query=" + query + "&" + plex_token + "&type=" + mediaType.value
+        json_obj = getJsonFromPlex(searchQueryUrl)
+    else:
+        print('found value')
+
     playlist = []
     try:
         if (mediaType == MediaType.Track):
