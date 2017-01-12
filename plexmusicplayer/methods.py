@@ -36,6 +36,8 @@ def findNumberInQuery(input):
 
 def numberToWords(Number):
     if 1 <= Number < 19:
+        print('Number='+Number)
+        print(num2words1[Number])
         return num2words1[Number]
     elif 20 <= Number <= 99:
         tens, below_ten = divmod(Number, 10)
