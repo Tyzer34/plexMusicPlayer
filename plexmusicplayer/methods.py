@@ -24,6 +24,7 @@ def findNumberInQuery(input):
         if hasNumbers(word):
             print ('found number in loop')
             number = int(word)
+            print(number)
             value = numberToWords(number)
             print(value)
         else:     
@@ -36,7 +37,6 @@ def findNumberInQuery(input):
 
 
 def numberToWords(Number):
-    print(":"+Number+":")
     if 1 <= Number < 19:
         print('Number='+Number)
         print(num2words1[Number])
