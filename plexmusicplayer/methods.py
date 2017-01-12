@@ -19,13 +19,17 @@ def findNumberInQuery(input):
     words = input.split()
     response = ""
     for word in  words: 
+        print ('in for loop word='+word)
         value = ""
         if hasNumbers(word):
+            print ('found number in loop')
             value = numberToWords(word)
+            print(value)
         else:     
             value = word
 
         response = response + value
+    print('reponse='+response)
     return response
 
 
@@ -163,10 +167,12 @@ def processQuery(query, mediaType):
             speech = "Playing " + album + " by " + artist + " from " + server + "."
         elif (mediaType == MediaType.Artist):
             if hasNumbers(query):
+                print('has numbers')
                 query = findNumberInQuery(query)
                 searchQueryUrl = base_url + "/search?query=" + query + "&" + plex_token + "&type=" + mediaType.value
                 json_obj = getJsonFromPlex(searchQueryUrl)
-
+            else:
+                print('does not have numbers')
             json_obj = rebuildQueryWithoutSpaces(json_obj)
             artist, server, playlist = parseArtistJson(json_obj)
             speech = "Playing " + artist + " from " + server + "."
