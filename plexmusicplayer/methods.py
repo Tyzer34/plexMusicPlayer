@@ -36,17 +36,19 @@ def findNumberInQuery(input):
 
 
 
-def numberToWords(Number):
-    if 1 <= Number < 19:
-        print('Number='+Number)
-        print(num2words1[Number])
-        return num2words1[Number]
-    elif 20 <= Number <= 99:
-        tens, below_ten = divmod(Number, 10)
+def numberToWords(num):
+    print('in numberToWords method')
+    if 1 <= num < 19:
+        print('between 1 and 19')
+        print(num2words1[num])
+        return num2words1[num]
+    elif 20 <= num <= 99:
+        print('between 20 and 99')
+        tens, below_ten = divmod(num, 10)
         return num2words2[tens - 2] + '-' + num2words1[below_ten]
     else:
         print("Number out of range")
-        return Number
+        return str(num)
 
 def hasNumbers(inputString):
     return any(char.isdigit() for char in inputString)
