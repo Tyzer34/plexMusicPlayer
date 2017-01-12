@@ -23,7 +23,8 @@ def findNumberInQuery(input):
         value = ""
         if hasNumbers(word):
             print ('found number in loop')
-            value = numberToWords(word)
+            number = int(word)
+            value = numberToWords(number)
             print(value)
         else:     
             value = word
