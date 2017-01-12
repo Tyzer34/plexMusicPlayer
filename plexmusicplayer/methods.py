@@ -15,7 +15,7 @@ num2words2 = ['Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty'
 # --------------------------------------------------------------------------------------------
 # Plex Music Player - Methods
 
-def findNumberInQuery(input):
+def findAndConvertNumberInQuery(input):
     words = input.split()
     response = ""
     for word in  words: 
@@ -52,14 +52,6 @@ def numberToWords(num):
 
 def hasNumbers(inputString):
     return any(char.isdigit() for char in inputString)
-
-def rebuildQueryWithoutSpaces(json_obj):
-    if json_obj:
-        query.replace(" ","")
-        print(query)
-        searchQueryUrl = base_url + "/search?query=" + query + "&" + plex_token + "&type=" + mediaType.value
-        json_obj = getJsonFromPlex(searchQueryUrl)
-    return json_obj
 
 def getStreamUrl(sub_url):
     global base_url, plex_token
@@ -156,12 +148,18 @@ def parseArtistJson(json_obj):
             playlist.append(Track(title, album, artist, stream_url))
     return artist, server, playlist
 
-def processQuery(query, mediaType):
+def callPlex(query, type):
     global base_url, plex_token
+
     searchQueryUrl = base_url + "/search?query=" + query + "&" + plex_token + "&type=" + mediaType.value
-    json_obj = getJsonFromPlex(searchQueryUrl)
+    print(searchQueryUrl)
+
+    return getJsonFromPlex(searchQueryUrl)
 
 
+def processQuery(query, mediaType):
+    
+    json_obj = callPlex(query, mediaType)
     playlist = []
     try:
         if (mediaType == MediaType.Track):
@@ -172,14 +170,19 @@ def processQuery(query, mediaType):
             album, artist, server, playlist = parseAlbumJson(json_obj)
             speech = "Playing " + album + " by " + artist + " from " + server + "."
         elif (mediaType == MediaType.Artist):
-            if hasNumbers(query):
-                print('has numbers')
-                query = findNumberInQuery(query)
-                searchQueryUrl = base_url + "/search?query=" + query + "&" + plex_token + "&type=" + mediaType.value
-                json_obj = getJsonFromPlex(searchQueryUrl)
-            else:
-                print('does not have numbers')
-            json_obj = rebuildQueryWithoutSpaces(json_obj)
+            if json_obj:
+
+                #check to see if artist name contains numbers
+                if hasNumbers(query):
+                    query = findAndConvertNumberInQuery(query)
+                    json_obj = callPlex(query, mediaType)
+
+                 #check to see if match is found   
+                if json_obj:
+                    query.replace(" ","")
+                    json_obj = callPlex(query, mediaType)
+                    
+
             artist, server, playlist = parseArtistJson(json_obj)
             speech = "Playing " + artist + " from " + server + "."
         return speech, playlist
