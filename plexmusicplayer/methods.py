@@ -35,6 +35,7 @@ def findNumberInQuery(input):
 
 
 def numberToWords(Number):
+    print(Number)
     if 1 <= Number < 19:
         print('Number='+Number)
         print(num2words1[Number])
