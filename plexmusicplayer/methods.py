@@ -19,14 +19,10 @@ def findAndConvertNumberInQuery(input):
     words = input.split()
     response = ""
     for word in  words: 
-        print ('in for loop word=:'+word+':')
         value = ""
         if hasNumbers(word):
-            print ('found number in loop')
             number = int(word)
-            print(number)
             value = numberToWords(number)
-            print(value)
         else:     
             value = word
 
@@ -37,17 +33,12 @@ def findAndConvertNumberInQuery(input):
 
 
 def numberToWords(num):
-    print('in numberToWords method')
     if 1 <= num < 19:
-        print('between 1 and 19')
-        print(num2words1[num])
         return num2words1[num]
     elif 20 <= num <= 99:
-        print('between 20 and 99')
         tens, below_ten = divmod(num, 10)
         return num2words2[tens - 2] + '-' + num2words1[below_ten]
     else:
-        print("Number out of range")
         return str(num)
 
 def hasNumbers(inputString):
