@@ -7,8 +7,42 @@ import json
 base_url = environ['PLEX_URL']
 plex_token = "X-Plex-Token=" + environ['PLEX_TOKEN']
 
+num2words1 = {1: 'One', 2: 'Two', 3: 'Three', 4: 'Four', 5: 'Five', \
+            6: 'Six', 7: 'Seven', 8: 'Eight', 9: 'Nine', 10: 'Ten', \
+            11: 'Eleven', 12: 'Twelve', 13: 'Thirteen', 14: 'Fourteen', \
+            15: 'Fifteen', 16: 'Sixteen', 17: 'Seventeen', 18: 'Eighteen', 19: 'Nineteen'}
+num2words2 = ['Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety']
 # --------------------------------------------------------------------------------------------
 # Plex Music Player - Methods
+
+def findAndConvertNumberInQuery(input):
+    words = input.split()
+    response = ""
+    for word in  words: 
+        value = ""
+        if hasNumbers(word):
+            number = int(word)
+            value = numberToWords(number)
+        else:     
+            value = word
+
+        response = response + value
+    print('reponse='+response)
+    return response
+
+
+
+def numberToWords(num):
+    if 1 <= num < 19:
+        return num2words1[num]
+    elif 20 <= num <= 99:
+        tens, below_ten = divmod(num, 10)
+        return num2words2[tens - 2] + '-' + num2words1[below_ten]
+    else:
+        return str(num)
+
+def hasNumbers(inputString):
+    return any(char.isdigit() for char in inputString)
 
 def getStreamUrl(sub_url):
     global base_url, plex_token
@@ -105,10 +139,18 @@ def parseArtistJson(json_obj):
             playlist.append(Track(title, album, artist, stream_url))
     return artist, server, playlist
 
-def processQuery(query, mediaType):
+def callPlex(query, mediaType):
     global base_url, plex_token
+
     searchQueryUrl = base_url + "/search?query=" + query + "&" + plex_token + "&type=" + mediaType.value
-    json_obj = getJsonFromPlex(searchQueryUrl)
+    print(searchQueryUrl)
+
+    return getJsonFromPlex(searchQueryUrl)
+
+
+def processQuery(query, mediaType):
+    
+    json_obj = callPlex(query, mediaType)
     playlist = []
     try:
         if (mediaType == MediaType.Track):
@@ -119,6 +161,19 @@ def processQuery(query, mediaType):
             album, artist, server, playlist = parseAlbumJson(json_obj)
             speech = "Playing " + album + " by " + artist + " from " + server + "."
         elif (mediaType == MediaType.Artist):
+            if json_obj:
+
+                #check to see if artist name contains numbers
+                if hasNumbers(query):
+                    query = findAndConvertNumberInQuery(query)
+                    json_obj = callPlex(query, mediaType)
+
+                 #check to see if match is found   
+                if json_obj:
+                    query.replace(" ","")
+                    json_obj = callPlex(query, mediaType)
+                    
+
             artist, server, playlist = parseArtistJson(json_obj)
             speech = "Playing " + artist + " from " + server + "."
         return speech, playlist
