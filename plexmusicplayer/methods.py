@@ -19,7 +19,7 @@ def findNumberInQuery(input):
     words = input.split()
     response = ""
     for word in  words: 
-        print ('in for loop word='+word)
+        print ('in for loop word=:'+word+':')
         value = ""
         if hasNumbers(word):
             print ('found number in loop')
