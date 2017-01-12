@@ -148,7 +148,7 @@ def parseArtistJson(json_obj):
             playlist.append(Track(title, album, artist, stream_url))
     return artist, server, playlist
 
-def callPlex(query, type):
+def callPlex(query, mediaType):
     global base_url, plex_token
 
     searchQueryUrl = base_url + "/search?query=" + query + "&" + plex_token + "&type=" + mediaType.value
