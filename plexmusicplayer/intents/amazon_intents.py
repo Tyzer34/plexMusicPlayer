@@ -56,9 +56,7 @@ def pause():
 
 @ask.intent('AMAZON.ResumeIntent')
 def resume():
-    response = audio("").play(queue.current.stream_url, offset=queue.current.offset)
-    print(response)
-    return response
+    return audio("").resume()
 
 @ask.intent('AMAZON.ShuffleOnIntent')
 def shuffle():
