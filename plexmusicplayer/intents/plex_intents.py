@@ -8,27 +8,27 @@ import plexmusicplayer.methods as methods
 
 @ask.intent('PlexPlayTrackIntent')
 def playTrack(track):
-    speech, playlist = methods.processQuery(track, MediaType.Track)
+    speech, playlist = methods.processTrackQuery(track, MediaType.Track)
+    return makeRespone(speech, playlist)
+
+@ask.intent('PlexPlayTrackByArtistIntent')
+def playTrackByArtist(track, artist):
+    speech, playlist = methods.processTrackByArtistQuery(track, artist, MediaType.Track)
     return makeRespone(speech, playlist)
 
 @ask.intent('PlexPlayAlbumIntent')
 def playAlbum(album):
-    speech, playlist = methods.processQuery(album, MediaType.Album)
-    return makeRespone(speech, playlist)
-
-@ask.intent('PlexPlayTrackByArtistIntent')
-def playTrack(track):
-    speech, playlist = methods.processQuery(track, MediaType.Track)
+    speech, playlist = methods.processAlbumQuery(album, MediaType.Album)
     return makeRespone(speech, playlist)
 
 @ask.intent('PlexPlayAlbumByArtistIntent')
-def playAlbum(album):
-    speech, playlist = methods.processQuery(album, MediaType.Album)
+def playAlbumByArtist(album, artist):
+    speech, playlist = methods.processAlbumByArtistQuery(album, artist, MediaType.Album)
     return makeRespone(speech, playlist)
 
 @ask.intent('PlexPlayArtistIntent')
 def playArtist(artist):
-    speech, playlist = methods.processQuery(artist, MediaType.Artist)
+    speech, playlist = methods.processArtistQuery(artist, MediaType.Artist)
     return makeRespone(speech, playlist)
 
 @ask.intent('PlexWhatSongIntent')
