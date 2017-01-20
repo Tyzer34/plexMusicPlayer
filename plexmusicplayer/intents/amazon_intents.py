@@ -28,7 +28,7 @@ def nearly_finished():
 @ask.on_playback_finished()
 def play_back_finished():
     if queue.whats_next:
-        queue.go_next()
+        return audio("").play(queue.go_next().stream_url)
 
 @ask.intent('AMAZON.NextIntent')
 def next_song():
