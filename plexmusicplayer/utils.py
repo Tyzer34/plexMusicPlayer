@@ -63,7 +63,7 @@ class QueueManager(object):
         return self._counter.value
 
     def shuffle(self):
-        shuffle = [self._playlist[(self._counter.value+1):]]
+        shuffle = self._playlist[(self._counter.value+1):]
         random.shuffle(shuffle)
         self._playlist = self._playlist[:(self._counter.value+1)] + shuffle
 
