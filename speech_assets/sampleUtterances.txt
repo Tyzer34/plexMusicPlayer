@@ -51,3 +51,6 @@ PlexWhatSongIntent for the name of this song
 PlexWhatSongIntent give me the name of this song
 PlexWhatSongIntent tell me what this song is called
 PlexWhatSongIntent tell me the name of this song
+
+PlexClearQueueIntent clear queue
+PlexClearQueueIntent clear playlist
