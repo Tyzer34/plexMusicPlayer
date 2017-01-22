@@ -18,6 +18,35 @@ PlexPlayArtistIntent play {artist}
 PlexPlayArtistIntent play songs from {artist}
 PlexPlayArtistIntent play music by {artist}
 
+PlexQueueTrackIntent add the song {track} to playlist
+PlexQueueTrackIntent add the song called {track} to playlist
+PlexQueueTrackIntent add the track called {track} to playlist
+PlexQueueTrackIntent queue the song {track}
+PlexQueueTrackIntent queue the song called {track}
+PlexQueueTrackIntent queue the track called {track}
+
+PlexQueueTrackByArtistIntent add the song {track} by {artist} to playlist
+PlexQueueTrackByArtistIntent add the track {track} by {artist} to playlist
+PlexQueueTrackByArtistIntent queue the song {track} by {artist}
+PlexQueueTrackByArtistIntent queue the track {track} by {artist}
+
+PlexQueueAlbumIntent add the album {album} to playlist
+PlexQueueAlbumIntent add the album called {album} to playlist
+PlexQueueAlbumIntent queue the album {album}
+PlexQueueAlbumIntent queue the album called {album}
+
+PlexQueueAlbumByArtistIntent add the album {album} from {artist} to playlist
+PlexQueueAlbumByArtistIntent add the album {album} by {artist} to playlist
+PlexQueueAlbumByArtistIntent queue the album {album} from {artist}
+PlexQueueAlbumByArtistIntent queue the album {album} by {artist}
+
+PlexQueueArtistIntent add {artist} to playlist
+PlexQueueArtistIntent add songs from {artist} to playlist
+PlexQueueArtistIntent add music by {artist} to playlist
+PlexQueueArtistIntent queue {artist}
+PlexQueueArtistIntent queue songs from {artist}
+PlexQueueArtistIntent queue music by {artist}
+
 PlexWhatSongIntent for the name of this song
 PlexWhatSongIntent give me the name of this song
 PlexWhatSongIntent tell me what this song is called

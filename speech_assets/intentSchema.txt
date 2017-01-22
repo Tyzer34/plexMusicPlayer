@@ -63,6 +63,47 @@
             }]
         },
         {
+            "intent": "PlexQueueTrackIntent",
+            "slots": [{
+                "name": "track",
+                "type": "AMAZON.MusicCreativeWorkType"
+            }]
+        },
+        {
+            "intent": "PlexQueueTrackByArtistIntent",
+            "slots": [{
+                "name": "track",
+                "type": "AMAZON.MusicCreativeWorkType"
+            },{
+                "name": "artist",
+                "type": "AMAZON.MusicGroup"
+            }]
+        },
+        {
+            "intent": "PlexQueueAlbumIntent",
+            "slots": [{
+                "name": "album",
+                "type": "AMAZON.MusicAlbum"
+            }]
+        },
+        {
+            "intent": "PlexQueueAlbumByArtistIntent",
+            "slots": [{
+                "name": "album",
+                "type": "AMAZON.MusicAlbum"
+            },{
+                "name": "artist",
+                "type": "AMAZON.MusicGroup"
+            }]
+        },
+        {
+            "intent": "PlexQueueArtistIntent",
+            "slots": [{
+                "name": "artist",
+                "type": "AMAZON.MusicGroup"
+            }]
+        },
+        {
             "intent": "PlexWhatSongIntent"
         },
       	{

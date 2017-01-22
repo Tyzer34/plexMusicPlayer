@@ -270,3 +270,52 @@ def processArtistQuery(artist, mediaType):
     except:
         speech = "I was not able to find " + artist + " in your library."
         return speech, []
+
+def processQueueTrackQuery(track, mediaType):
+    playlist = []
+    try:
+        track, server = parseTrackJson(processQuery(track, mediaType))
+        speech = "Added " + track.title + " by " + track.artist + " to queue."
+        playlist.append(track)
+        return speech, playlist
+    except:
+        speech = "I was not able to find " + track + " in your library."
+        return speech, []
+
+def processQueueTrackByArtistQuery(track, artist, mediaType):
+    playlist = []
+    try:
+        track, server = parseTrackByArtistJson(processQuery(track, mediaType), artist)
+        speech = "Added " + track.title + " by " + track.artist + " to queue."
+        playlist.append(track)
+        return speech, playlist
+    except:
+        speech = "I was not able to find " + track + " by " + artist + " in your library."
+        return speech, []
+
+def processQueueAlbumQuery(album, mediaType):
+    try:
+        album, artist, server, playlist = parseAlbumJson(processQuery(album, mediaType))
+        speech = "Added " + album + " by " + artist + " to queue."
+        return speech, playlist
+    except:
+        speech = "I was not able to find " + album + " in your library."
+        return speech, []
+
+def processQueueAlbumByArtistQuery(album, artist, mediaType):
+    try:
+        album, artist, server, playlist = parseAlbumByArtistJson(processQuery(album, mediaType), artist)
+        speech = "Added " + album + " by " + artist + " to queue."
+        return speech, playlist
+    except:
+        speech = "I was not able to find " + album + " by " + artist + " in your library."
+        return speech, []
+
+def processQueueArtistQuery(artist, mediaType):
+    try:
+        artist, server, playlist = parseArtistJson(processQuery(artist, mediaType))
+        speech = "Added " + artist + " to queue."
+        return speech, playlist
+    except:
+        speech = "I was not able to find " + artist + " in your library."
+        return speech, []

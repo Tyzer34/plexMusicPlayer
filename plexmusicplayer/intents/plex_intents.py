@@ -31,6 +31,31 @@ def playArtist(artist):
     speech, playlist = methods.processArtistQuery(artist, MediaType.Artist)
     return makeRespone(speech, playlist)
 
+@ask.intent('PlexQueueTrackIntent')
+def queueTrack(track):
+    speech, playlist = methods.processQueueTrackQuery(track, MediaType.Track)
+    return makeQueueRespone(speech, playlist)
+
+@ask.intent('PlexQueueTrackByArtistIntent')
+def queueTrackByArtist(track, artist):
+    speech, playlist = methods.processQueueTrackByArtistQuery(track, artist, MediaType.Track)
+    return makeQueueRespone(speech, playlist)
+
+@ask.intent('PlexQueueAlbumIntent')
+def queueAlbum(album):
+    speech, playlist = methods.processQueueAlbumQuery(album, MediaType.Album)
+    return makeQueueRespone(speech, playlist)
+
+@ask.intent('PlexQueueAlbumByArtistIntent')
+def queueAlbumByArtist(album, artist):
+    speech, playlist = methods.processQueueAlbumByArtistQuery(album, artist, MediaType.Album)
+    return makeQueueRespone(speech, playlist)
+
+@ask.intent('PlexQueueArtistIntent')
+def queueArtist(artist):
+    speech, playlist = methods.processQueueArtistQuery(artist, MediaType.Artist)
+    return makeQueueRespone(speech, playlist)
+
 @ask.intent('PlexWhatSongIntent')
 def whatSong():
     curTrack = queue.current
@@ -50,3 +75,9 @@ def makeRespone(speech, playlist):
         return audio(speech).play(curTrack.stream_url)
     else:
         return statement(speech)
+
+def makeQueueRespone(speech, playlist):
+    if playlist != []:
+        for track in playlist:
+            queue.add(track)
+    return statement(speech)
