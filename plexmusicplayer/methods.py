@@ -130,7 +130,7 @@ def parseAlbumJson(json_obj):
     if '@title' in json_album['MediaContainer']['Track']:
         json_album['MediaContainer']['Track'] = [json_album['MediaContainer']['Track']]
 
-        playlist = createAlbumPlaylist(json_album['MediaContainer']['Track'], album, artist)
+    playlist = createAlbumPlaylist(json_album['MediaContainer']['Track'], album, artist)
     return album, artist, server, playlist
 
 def parseAlbumByArtistJson(json_obj, artist):
@@ -160,7 +160,7 @@ def parseAlbumByArtistJson(json_obj, artist):
     if '@title' in json_album['MediaContainer']['Track']:
         json_album['MediaContainer']['Track'] = [json_album['MediaContainer']['Track']]
 
-        playlist = createAlbumPlaylist(json_album['MediaContainer']['Track'], album, artist)
+    playlist = createAlbumPlaylist(json_album['MediaContainer']['Track'], album, artist)
     return album, artist, server, playlist
 
 def parseArtistJson(json_obj):
