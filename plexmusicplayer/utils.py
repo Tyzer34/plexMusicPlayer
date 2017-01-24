@@ -16,9 +16,7 @@ class QueueManager(object):
     @property
     def status(self):
         playlistCount = len(self._playlist)
-        status = 'Current Queue Status: Songs in Queue ' + str(playlistCount)
-        if playlistCount > 0:
-            status += ' | Current Song is ' + str(self.current) + " | Songs left to Play are: "
+        status = 'Current Queue Status: Songs in Queue ' + str(playlistCount) + ' | Current Song is ' + str(self.current) + " | Songs left to Play are: "
         for i in range(self._counter.value + 1, len(self._playlist)):
             status += str(self._playlist[i]) + ', '
         return status
@@ -74,6 +72,7 @@ class QueueManager(object):
         del self._playlist
         self._playlist = []
         self._playlist.extend(urls)
+        return self.current
 
 
 class MediaType(Enum):

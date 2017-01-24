@@ -69,15 +69,10 @@ def whatSong():
 def status():
     return statement(queue.status)
 
-@ask.intent('PlexClearQueueIntent')
-def clearQueue():
-    queue.setQueue([])
-    return statement("Queue is now empty")
-
 def makeRespone(speech, playlist):
     if playlist != []:
-        queue.setQueue(playlist)
-        return audio(speech).play(queue.current.stream_url)
+        curTrack = queue.setQueue(playlist)
+        return audio(speech).play(curTrack.stream_url)
     else:
         return statement(speech)
 
