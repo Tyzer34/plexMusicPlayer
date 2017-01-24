@@ -72,6 +72,7 @@ class QueueManager(object):
         del self._playlist
         self._playlist = []
         self._playlist.extend(urls)
+        return self.current
 
 
 class MediaType(Enum):
