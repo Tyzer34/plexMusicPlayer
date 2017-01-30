@@ -3,20 +3,36 @@ PlexStatusIntent status
 
 PlexPlayTrackIntent play the song {track}
 PlexPlayTrackIntent play the song called {track}
+PlexPlayTrackIntent play the track {track}
 PlexPlayTrackIntent play the track called {track}
 
 PlexPlayTrackByArtistIntent play the song {track} by {artist}
+PlexPlayTrackByArtistIntent play the song called {track} by {artist}
 PlexPlayTrackByArtistIntent play the track {track} by {artist}
+PlexPlayTrackByArtistIntent play the track called {track} by {artist}
+PlexPlayTrackByArtistIntent play {track} by {artist}
 
 PlexPlayAlbumIntent play the album {album}
 PlexPlayAlbumIntent play the album called {album}
 
 PlexPlayAlbumByArtistIntent play the album {album} from {artist}
 PlexPlayAlbumByArtistIntent play the album {album} by {artist}
+PlexPlayAlbumByArtistIntent play the album called {album} from {artist}
+PlexPlayAlbumByArtistIntent play the album called {album} by {artist}
 
 PlexPlayArtistIntent play {artist}
+PlexPlayArtistIntent play some {artist}
 PlexPlayArtistIntent play songs from {artist}
+PlexPlayArtistIntent play songs by {artist}
+PlexPlayArtistIntent play music from {artist}
 PlexPlayArtistIntent play music by {artist}
+
+PlexPlayPlaylistIntent play {playlist_name} playlist
+PlexPlayPlaylistIntent play the {playlist_name} playlist
+PlexPlayPlaylistIntent play playlist {playlist_name}
+PlexPlayPlaylistIntent play the playlist {playlist_name}
+PlexPlayPlaylistIntent play music from the playlist {playlist_name}
+PlexPlayPlaylistIntent play music from playlist {playlist_name}
 
 PlexQueueTrackIntent add the song {track} to playlist
 PlexQueueTrackIntent add the song called {track} to playlist
@@ -47,7 +63,23 @@ PlexQueueArtistIntent queue {artist}
 PlexQueueArtistIntent queue songs from {artist}
 PlexQueueArtistIntent queue music by {artist}
 
+PlexQueuePlaylistIntent add {playlist_name} playlist to playlist
+PlexQueuePlaylistIntent add the {playlist_name} playlist to playlist
+PlexQueuePlaylistIntent add playlist {playlist_name} to the playlist
+PlexQueuePlaylistIntent add the playlist {playlist_name} to the playlist
+PlexQueuePlaylistIntent add music from the playlist {playlist_name} to the playlist
+PlexQueuePlaylistIntent add music from playlist {playlist_name} to the playlist
+PlexQueuePlaylistIntent queue {playlist_name} playlist
+PlexQueuePlaylistIntent queue the {playlist_name} playlist
+PlexQueuePlaylistIntent queue playlist {playlist_name}
+PlexQueuePlaylistIntent queue the playlist {playlist_name}
+PlexQueuePlaylistIntent queue music from the playlist {playlist_name}
+PlexQueuePlaylistIntent queue music from playlist {playlist_name}
+
 PlexWhatSongIntent for the name of this song
 PlexWhatSongIntent give me the name of this song
 PlexWhatSongIntent tell me what this song is called
 PlexWhatSongIntent tell me the name of this song
+PlexWhatSongIntent what this song is called
+PlexWhatSongIntent the title of this song
+PlexWhatSongIntent the name of this song
