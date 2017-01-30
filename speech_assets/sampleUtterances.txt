@@ -63,18 +63,18 @@ PlexQueueArtistIntent queue {artist}
 PlexQueueArtistIntent queue songs from {artist}
 PlexQueueArtistIntent queue music by {artist}
 
-PlexPlayPlaylistIntent add {playlist_name} playlist to playlist
-PlexPlayPlaylistIntent add the {playlist_name} playlist to playlist
-PlexPlayPlaylistIntent add playlist {playlist_name} to the playlist
-PlexPlayPlaylistIntent add the playlist {playlist_name} to the playlist
-PlexPlayPlaylistIntent add music from the playlist {playlist_name} to the playlist
-PlexPlayPlaylistIntent add music from playlist {playlist_name} to the playlist
-PlexPlayPlaylistIntent queue {playlist_name} playlist
-PlexPlayPlaylistIntent queue the {playlist_name} playlist
-PlexPlayPlaylistIntent queue playlist {playlist_name}
-PlexPlayPlaylistIntent queue the playlist {playlist_name}
-PlexPlayPlaylistIntent queue music from the playlist {playlist_name}
-PlexPlayPlaylistIntent queue music from playlist {playlist_name}
+PlexQueuePlaylistIntent add {playlist_name} playlist to playlist
+PlexQueuePlaylistIntent add the {playlist_name} playlist to playlist
+PlexQueuePlaylistIntent add playlist {playlist_name} to the playlist
+PlexQueuePlaylistIntent add the playlist {playlist_name} to the playlist
+PlexQueuePlaylistIntent add music from the playlist {playlist_name} to the playlist
+PlexQueuePlaylistIntent add music from playlist {playlist_name} to the playlist
+PlexQueuePlaylistIntent queue {playlist_name} playlist
+PlexQueuePlaylistIntent queue the {playlist_name} playlist
+PlexQueuePlaylistIntent queue playlist {playlist_name}
+PlexQueuePlaylistIntent queue the playlist {playlist_name}
+PlexQueuePlaylistIntent queue music from the playlist {playlist_name}
+PlexQueuePlaylistIntent queue music from playlist {playlist_name}
 
 PlexWhatSongIntent for the name of this song
 PlexWhatSongIntent give me the name of this song
