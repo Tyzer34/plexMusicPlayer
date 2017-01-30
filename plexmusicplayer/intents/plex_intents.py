@@ -1,6 +1,6 @@
 from flask_ask import audio, statement, question
-from plexmusicplayer import ask, queue, app
-from plexmusicplayer.utils import Track, QueueManager, MediaType
+from plexmusicplayer import ask, queue
+from plexmusicplayer.utils import MediaType
 import plexmusicplayer.methods as methods
 
 # --------------------------------------------------------------------------------------------
@@ -31,6 +31,11 @@ def playArtist(artist):
     speech, playlist = methods.processArtistQuery(artist, MediaType.Artist)
     return makeRespone(speech, playlist)
 
+@ask.intent('PlexPlayPlaylistIntent')
+def playPlaylist(playlist_name):
+    speech, playlist = methods.processPlaylistQuery(playlist_name, MediaType.Playlist)
+    return makeRespone(speech, playlist)
+
 @ask.intent('PlexQueueTrackIntent')
 def queueTrack(track):
     speech, playlist = methods.processQueueTrackQuery(track, MediaType.Track)
@@ -54,6 +59,11 @@ def queueAlbumByArtist(album, artist):
 @ask.intent('PlexQueueArtistIntent')
 def queueArtist(artist):
     speech, playlist = methods.processQueueArtistQuery(artist, MediaType.Artist)
+    return makeQueueRespone(speech, playlist)
+
+@ask.intent('PlexQueuePlaylistIntent')
+def queuePlaylist(playlist_name):
+    speech, playlist = methods.processQueuePlaylistQuery(playlist_name, MediaType.Playlist)
     return makeQueueRespone(speech, playlist)
 
 @ask.intent('PlexWhatSongIntent')

@@ -1,7 +1,6 @@
 from flask_ask import audio, statement, question
 from flask import request
-from plexmusicplayer import ask, queue, app
-from plexmusicplayer.utils import Track, QueueManager, MediaType
+from plexmusicplayer import ask, queue
 
 # --------------------------------------------------------------------------------------------
 # Amazon Playback - Intents
@@ -17,7 +16,6 @@ def new_ask():
 def stopped():
     offset = float(request.json['context']['AudioPlayer']['offsetInMilliseconds']) / 1000
     queue.current.set_offset(offset)
-    print("Playback stopped at %s" % offset)
 
 @ask.on_playback_nearly_finished()
 def nearly_finished():
@@ -32,7 +30,6 @@ def play_back_finished():
 
 @ask.intent('AMAZON.NextIntent')
 def next_song():
-    print(request.data)
     if queue.whats_next:
         return audio("").play(queue.go_next().stream_url)
     else:
@@ -61,7 +58,7 @@ def resume():
 @ask.intent('AMAZON.ShuffleOnIntent')
 def shuffle():
     queue.shuffle()
-    return statement("")
+    return statement("Playlist shuffled")
 
 @ask.intent('AMAZON.StopIntent')
 def stop():

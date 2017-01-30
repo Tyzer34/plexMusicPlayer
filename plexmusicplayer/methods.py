@@ -1,4 +1,4 @@
-from .utils import Track, QueueManager, MediaType
+from .utils import Track
 from difflib import SequenceMatcher
 from os import environ
 import requests
@@ -13,25 +13,25 @@ num2words1 = {1: 'One', 2: 'Two', 3: 'Three', 4: 'Four', 5: 'Five', \
             11: 'Eleven', 12: 'Twelve', 13: 'Thirteen', 14: 'Fourteen', \
             15: 'Fifteen', 16: 'Sixteen', 17: 'Seventeen', 18: 'Eighteen', 19: 'Nineteen'}
 num2words2 = ['Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety']
+
+
 # --------------------------------------------------------------------------------------------
 # Plex Music Player - Methods
 def similar(a, b):
     return SequenceMatcher(None, a, b).ratio()
 
+
 def findAndConvertNumberInQuery(input):
     words = input.split()
     response = ""
-    for word in  words: 
-        value = ""
+    for word in  words:
+        value = word
         if hasNumbers(word):
             number = int(word)
             value = numberToWords(number)
-        else:     
-            value = word
-
         response = response + value
-    print('reponse='+response)
     return response
+
 
 def numberToWords(num):
     if 1 <= num < 19:
@@ -42,17 +42,22 @@ def numberToWords(num):
     else:
         return str(num)
 
+
 def hasNumbers(inputString):
     return any(char.isdigit() for char in inputString)
+
 
 def getStreamUrl(sub_url):
     global base_url, plex_token
     return base_url + sub_url + "?download=1&" + plex_token
 
+
 def getLookupUrl(sub_url):
     global base_url, plex_token
+    'https://192-168-0-100.74da9199653c43c1aa08e509a274327f.plex.direct:32400/playlists/28337/items?X-Plex-Token=vBcxawDzPLJaHs6ULsDP'
     plex_url = base_url + sub_url + "?" + plex_token
     return plex_url
+
 
 def getJsonFromPlex(url):
     response = requests.get(url)
@@ -60,8 +65,8 @@ def getJsonFromPlex(url):
     json_obj = json.loads(json.dumps(xml_obj))
     return json_obj
 
+
 def parseTrackJson(json_obj):
-    print('parseTrackJson')
 
     directory = json_obj['MediaContainer']['Track']
     if isinstance(directory, list):
@@ -70,8 +75,7 @@ def parseTrackJson(json_obj):
         album = directory[0]['@parentTitle']
         artist = directory[0]['@grandparentTitle']
         sub_url = directory[0]['Media']['Part']['@key']
-    else:    
-        print('not a list')
+    else:
         server = directory['@sourceTitle']
         title = directory['@title']
         album = directory['@parentTitle']
@@ -81,8 +85,8 @@ def parseTrackJson(json_obj):
     stream_url = getStreamUrl(sub_url)
     return Track(title, album, artist, stream_url), server
 
+
 def parseTrackByArtistJson(json_obj, artist):
-    print('parseTrackJson')
 
     directory = json_obj['MediaContainer']['Track']
     if isinstance(directory, list):
@@ -99,7 +103,6 @@ def parseTrackByArtistJson(json_obj, artist):
                 sub_url = item['Media']['Part']['@key']
                 break
     else:
-        print('not a list')
         server = directory['@sourceTitle']
         title = directory['@title']
         album = directory['@parentTitle']
@@ -109,8 +112,8 @@ def parseTrackByArtistJson(json_obj, artist):
     stream_url = getStreamUrl(sub_url)
     return Track(title, album, artist, stream_url), server
 
+
 def parseAlbumJson(json_obj):
-    print('parseAlbumJson')
 
     playlist = []
     directory = json_obj['MediaContainer']['Directory']
@@ -133,10 +136,9 @@ def parseAlbumJson(json_obj):
     playlist = createAlbumPlaylist(json_album['MediaContainer']['Track'], album, artist)
     return album, artist, server, playlist
 
-def parseAlbumByArtistJson(json_obj, artist):
-    print('parseAlbumJson')
 
-    playlist = []
+def parseAlbumByArtistJson(json_obj, artist):
+
     directory = json_obj['MediaContainer']['Directory']
     if isinstance(directory, list):
         server = None
@@ -163,8 +165,8 @@ def parseAlbumByArtistJson(json_obj, artist):
     playlist = createAlbumPlaylist(json_album['MediaContainer']['Track'], album, artist)
     return album, artist, server, playlist
 
+
 def parseArtistJson(json_obj):
-    print('parseArtistJson')
     playlist = []
 
     directory = json_obj['MediaContainer']['Directory']
@@ -192,6 +194,35 @@ def parseArtistJson(json_obj):
         playlist += createAlbumPlaylist(json_album['MediaContainer']['Track'], album, artist)
     return artist, server, playlist
 
+
+def parsePlaylistJson(json_obj):
+    directory = json_obj['MediaContainer']['Playlist']
+    if isinstance(directory, list):
+        playlist_name = directory[0]['@title']
+        server = directory[0]['@sourceTitle']
+        sub_url = directory[0]['@key']
+    else:
+        playlist_name = directory['@title']
+        server = directory['@sourceTitle']
+        sub_url = directory['@key']
+    playlist_url = getLookupUrl(sub_url)
+    json_playlist = getJsonFromPlex(playlist_url)
+    playlist = createPlaylistPlaylist(json_playlist)
+    return playlist_name, server, playlist
+
+
+def createPlaylistPlaylist(json_playlist):
+    playlist = []
+    for track in json_playlist['MediaContainer']['Track']:
+        title = track['@title']
+        sub_url = track['Media']['Part']['@key']
+        artist = track['@grandparentTitle']
+        album = track['@parentTitle']
+        stream_url = getStreamUrl(sub_url)
+        playlist.append(Track(title, album, artist, stream_url))
+    return playlist
+
+
 def createAlbumPlaylist(json_album, album, artist):
     playlist = []
 
@@ -202,13 +233,14 @@ def createAlbumPlaylist(json_album, album, artist):
         playlist.append(Track(title, album, artist, stream_url))
     return playlist
 
+
 def callPlex(query, mediaType):
     global base_url, plex_token
 
     searchQueryUrl = base_url + "/search?query=" + query + "&" + plex_token + "&type=" + mediaType.value
-    print(searchQueryUrl)
 
     return getJsonFromPlex(searchQueryUrl)
+
 
 def processQuery(query, mediaType):
     json_obj = callPlex(query, mediaType)
@@ -222,6 +254,7 @@ def processQuery(query, mediaType):
         raise LookupError("No results could be found")
     return json_obj
 
+
 def processTrackQuery(track, mediaType):
     playlist = []
     try:
@@ -232,6 +265,7 @@ def processTrackQuery(track, mediaType):
     except:
         speech = "I was not able to find " + track + " in your library."
         return speech, []
+
 
 def processTrackByArtistQuery(track, artist, mediaType):
     playlist = []
@@ -244,6 +278,7 @@ def processTrackByArtistQuery(track, artist, mediaType):
         speech = "I was not able to find " + track + " by " + artist + " in your library."
         return speech, []
 
+
 def processAlbumQuery(album, mediaType):
     try:
         album, artist, server, playlist = parseAlbumJson(processQuery(album, mediaType))
@@ -252,6 +287,7 @@ def processAlbumQuery(album, mediaType):
     except:
         speech = "I was not able to find " + album + " in your library."
         return speech, []
+
 
 def processAlbumByArtistQuery(album, artist, mediaType):
     try:
@@ -262,6 +298,7 @@ def processAlbumByArtistQuery(album, artist, mediaType):
         speech = "I was not able to find " + album + " by " + artist + " in your library."
         return speech, []
 
+
 def processArtistQuery(artist, mediaType):
     try:
         artist, server, playlist = parseArtistJson(processQuery(artist, mediaType))
@@ -270,6 +307,17 @@ def processArtistQuery(artist, mediaType):
     except:
         speech = "I was not able to find " + artist + " in your library."
         return speech, []
+
+
+def processPlaylistQuery(playlist_name, mediaType):
+    try:
+        artist, server, playlist = parsePlaylistJson(processQuery(playlist_name, mediaType))
+        speech = "Playing playlist " + playlist_name + " from " + server + "."
+        return speech, playlist
+    except:
+        speech = "I was not able to find " + playlist_name + " in your library."
+        return speech, []
+
 
 def processQueueTrackQuery(track, mediaType):
     playlist = []
@@ -282,6 +330,7 @@ def processQueueTrackQuery(track, mediaType):
         speech = "I was not able to find " + track + " in your library."
         return speech, []
 
+
 def processQueueTrackByArtistQuery(track, artist, mediaType):
     playlist = []
     try:
@@ -293,6 +342,7 @@ def processQueueTrackByArtistQuery(track, artist, mediaType):
         speech = "I was not able to find " + track + " by " + artist + " in your library."
         return speech, []
 
+
 def processQueueAlbumQuery(album, mediaType):
     try:
         album, artist, server, playlist = parseAlbumJson(processQuery(album, mediaType))
@@ -301,6 +351,7 @@ def processQueueAlbumQuery(album, mediaType):
     except:
         speech = "I was not able to find " + album + " in your library."
         return speech, []
+
 
 def processQueueAlbumByArtistQuery(album, artist, mediaType):
     try:
@@ -311,6 +362,7 @@ def processQueueAlbumByArtistQuery(album, artist, mediaType):
         speech = "I was not able to find " + album + " by " + artist + " in your library."
         return speech, []
 
+
 def processQueueArtistQuery(artist, mediaType):
     try:
         artist, server, playlist = parseArtistJson(processQuery(artist, mediaType))
@@ -318,4 +370,14 @@ def processQueueArtistQuery(artist, mediaType):
         return speech, playlist
     except:
         speech = "I was not able to find " + artist + " in your library."
+        return speech, []
+
+
+def processQueuePlaylistQuery(playlist_name, mediaType):
+    try:
+        playlist_name, server, playlist = parsePlaylistJson(processQuery(playlist_name, mediaType))
+        speech = "Added playlist " + playlist_name + " to queue."
+        return speech, playlist
+    except:
+        speech = "I was not able to find " + playlist_name + " in your library."
         return speech, []

@@ -1,5 +1,4 @@
 from multiprocessing import Value
-import collections
 import random
 from enum import Enum
 import copy
@@ -31,7 +30,6 @@ class QueueManager(object):
     @property
     def current(self):
         with self._counter.get_lock():
-            print ("Current counter value: " + str(self._counter.value))
             return self._playlist[self._counter.value]
 
     @property
@@ -86,6 +84,7 @@ class MediaType(Enum):
     Artist = '8'
     Album = '9'
     Track = '10'
+    Playlist = '15'
 
 
 class Track(object):

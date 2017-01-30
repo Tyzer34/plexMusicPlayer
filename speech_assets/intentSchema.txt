@@ -63,6 +63,13 @@
             }]
         },
         {
+            "intent": "PlexPlayPlaylistIntent",
+          	"slots": [{
+              	"name": "playlist_name",
+              	"type": "AMAZON.MusicPlaylist"
+            }]
+        },
+        {
             "intent": "PlexQueueTrackIntent",
             "slots": [{
                 "name": "track",
@@ -101,6 +108,13 @@
             "slots": [{
                 "name": "artist",
                 "type": "AMAZON.MusicGroup"
+            }]
+        },
+        {
+            "intent": "PlexQueuePlaylistIntent",
+            "slots": [{
+                "name": "playlist_name",
+                "type": "AMAZON.MusicPlaylist"
             }]
         },
         {
