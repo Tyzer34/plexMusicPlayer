@@ -54,7 +54,6 @@ def getStreamUrl(sub_url):
 
 def getLookupUrl(sub_url):
     global base_url, plex_token
-    'https://192-168-0-100.74da9199653c43c1aa08e509a274327f.plex.direct:32400/playlists/28337/items?X-Plex-Token=vBcxawDzPLJaHs6ULsDP'
     plex_url = base_url + sub_url + "?" + plex_token
     return plex_url
 
