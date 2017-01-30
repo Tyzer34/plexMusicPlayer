@@ -3,9 +3,9 @@ import random
 from enum import Enum
 import copy
 
+
 # This QueueManager class is based on the following Flask-Ask example
 # https://github.com/johnwheeler/flask-ask/blob/master/samples/audio/playlist_demo/playlist.py
-
 class QueueManager(object):
 
     def __init__(self):
@@ -14,8 +14,9 @@ class QueueManager(object):
 
     @property
     def status(self):
-        playlistCount = len(self._playlist)
-        status = 'Current Queue Status: Songs in Queue ' + str(playlistCount) + ' | Current Song is ' + str(self.current) + " | Songs left to Play are: "
+        playlist_count = len(self._playlist)
+        status = 'Current Queue Status: Songs in Queue ' + str(playlist_count) + \
+                 ' | Current Song is ' + str(self.current) + " | Songs left to Play are: "
         for i in range(self._counter.value + 1, len(self._playlist)):
             status += str(self._playlist[i]) + ', '
         return status
@@ -65,7 +66,7 @@ class QueueManager(object):
         random.shuffle(shuffle)
         self._playlist = self._playlist[:(self._counter.value+1)] + shuffle
 
-    def setQueue(self, urls):
+    def set_queue(self, urls):
         self.reset()
         del self._playlist
         self._playlist = []
