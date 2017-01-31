@@ -4,6 +4,7 @@ from os import environ
 import requests
 import xmltodict
 import json
+from fuzzywuzzy import process
 
 base_url = environ['PLEX_URL']
 plex_token = "X-Plex-Token=" + environ['PLEX_TOKEN']
@@ -48,12 +49,10 @@ def hasNumbers(inputString):
 
 
 def getStreamUrl(sub_url):
-    global base_url, plex_token
     return base_url + sub_url + "?download=1&" + plex_token
 
 
 def getLookupUrl(sub_url):
-    global base_url, plex_token
     plex_url = base_url + sub_url + "?" + plex_token
     return plex_url
 
@@ -234,7 +233,6 @@ def createAlbumPlaylist(json_album, album, artist):
 
 
 def callPlex(query, mediaType):
-    global base_url, plex_token
 
     searchQueryUrl = base_url + "/search?query=" + query + "&" + plex_token + "&type=" + mediaType.value
 
@@ -243,15 +241,45 @@ def callPlex(query, mediaType):
 
 def processQuery(query, mediaType):
     json_obj = callPlex(query, mediaType)
-    if json_obj['MediaContainer']['@size'] == 0:
+    if json_obj['MediaContainer']['@size'] == '0':
+        # are there numbers that need to be converted?
         if hasNumbers(query):
             json_obj = callPlex(findAndConvertNumberInQuery(query), mediaType)
-    if json_obj['MediaContainer']['@size'] == 0:
+    if json_obj['MediaContainer']['@size'] == '0':
+        # should we be contracting spaces?
         query.replace(" ", "")
         json_obj = callPlex(query, mediaType)
-    if json_obj['MediaContainer']['@size'] == 0:
+    if json_obj['MediaContainer']['@size'] == '0' and mediaType.value in ['8', '9']:
+        # fuzzy match on albums and artists
+        query = fuzzy_match(query, mediaType)
+        if query:
+            json_obj = callPlex(query, mediaType)
+    if json_obj['MediaContainer']['@size'] == '0':
         raise LookupError("No results could be found")
     return json_obj
+
+
+def fuzzy_match(query, media_type):
+    dirs = get_music_directories()
+    names = get_names_by_first_letter(dirs, query[0].upper(), media_type)
+    best_match = process.extractOne(query, names)
+    return best_match[0] if best_match and best_match[1] > 60 else None
+
+
+def get_music_directories():
+    url = "{0}/library/sections/?{1}".format(base_url, plex_token)
+    directories = getJsonFromPlex(url)['MediaContainer']['Directory']
+    return [directory['Location']['@id'] for directory in directories if directory and directory['@type'] == 'artist']
+
+
+def get_names_by_first_letter(dirs, letter, media_type):
+    names = []
+    for dir in dirs:
+        url = "{0}/library/sections/{1}/firstCharacter/{2}?{3}&type={4}".format(
+            base_url, dir, letter, plex_token, media_type.value)
+        results = getJsonFromPlex(url)['MediaContainer']['Directory']
+        names.extend([result['@title'] for result in results])
+    return names
 
 
 def processTrackQuery(track, mediaType):
