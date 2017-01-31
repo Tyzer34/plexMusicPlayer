@@ -61,10 +61,10 @@ Congratulations! PlexMusicPlayer is now up and running on your favorite Alexa de
 ##The Functionalities
 Currently, PlexMusicPlayer is able to playback music based on a provided artist, album or song title. When an artist or album is provided and multiple songs are available for that artist or album in your Plex library, these will be queued and played as a playlist. Furthermore, it is possible to ask information related to the current song or to shuffle the current playlist. Obviously, requests such as next and play are also implemented. Some activation sentences are provided as an example below.
 ```
-Alexa, ask plexmusic to play Pour Some Sugar on Me.
 Alexa, ask plexmusic to play Def Leppard.
-Alexa, ask plexmusic to play AM by Arctic Monkeys.
+Alexa, ask plexmusic to play the album AM by Arctic Monkeys.
 Alexa, ask plexmusic to tell me the name of this song.
+Alexa, ask plexmusic to play “my favorites” playlist.
 ```
 
 ##The Future
