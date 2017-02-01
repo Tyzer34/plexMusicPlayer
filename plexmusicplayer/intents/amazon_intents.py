@@ -13,9 +13,16 @@ def new_ask():
         .reprompt(reprompt)
 
 
+@ask.on_playback_started()
+def started(offset):
+    offset /= 1000
+    print("Playback started at %s" % offset)
+
+
 @ask.on_playback_stopped()
-def stopped():
-    offset = float(request.json['context']['AudioPlayer']['offsetInMilliseconds']) / 1000
+def stopped(offset):
+    offset /= 1000
+    print("Playback stopped at %s" % offset)
     queue.current.set_offset(offset)
 
 
@@ -29,7 +36,7 @@ def nearly_finished():
 @ask.on_playback_finished()
 def play_back_finished():
     if queue.whats_next:
-        return audio("").play(queue.go_next().stream_url)
+        queue.go_next()
 
 
 @ask.intent('AMAZON.NextIntent')
