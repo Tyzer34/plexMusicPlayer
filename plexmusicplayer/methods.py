@@ -6,8 +6,12 @@ import xmltodict
 import json
 from fuzzywuzzy import process
 
-base_url = environ['PLEX_URL']
+stream_base_url = environ['PLEX_URL']
 plex_token = "X-Plex-Token=" + environ['PLEX_TOKEN']
+try:
+    base_url = environ['PLEX_LOCAL_URL']
+except:
+    base_url = stream_base_url
 
 num2words1 = {1: 'One', 2: 'Two', 3: 'Three', 4: 'Four', 5: 'Five', \
             6: 'Six', 7: 'Seven', 8: 'Eight', 9: 'Nine', 10: 'Ten', \
@@ -49,7 +53,7 @@ def hasNumbers(inputString):
 
 
 def getStreamUrl(sub_url):
-    return base_url + sub_url + "?download=1&" + plex_token
+    return stream_base_url + sub_url + "?download=1&" + plex_token
 
 
 def getLookupUrl(sub_url):
