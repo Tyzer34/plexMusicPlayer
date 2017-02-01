@@ -45,6 +45,16 @@ Lastly, we just have to restart the server so it can cope with the set environme
 heroku restart
 ```
 
+#### Optional Local URL Variable
+
+If you choose to customise your setup and host Plex Music Player on the same network as your Plex server you can also set a PLEX_LOCAL_URL environment variable. This takes the same format as the PLEX_URL variable, but rather than using a publicly available URL for Plex it uses an address that is only accessible within the local network. This has the advantage of making searches much faster as they do not have to travel outside your network between different servers. The PLEX_URL variable still has to be set to a publicly available URL in order for Alexa to fetch the media being played.
+
+```
+export PLEX_LOCAL_URL=https://192.168.*.*.some_long_encoded_string.plex.direct:your_plex_port
+```
+
+192.168.*.* would be replaced by the IP address of the machine on which your Plex server is hosted.
+
 ### Making the Alexa Skill
 Now that the backend is fully up and running, the Alexa Skill has to be initialized on Amazon Developers. If you have not done this before, you can follow [this step-by-step explenation](https://blog.craftworkz.co/flask-ask-a-tutorial-on-a-simple-and-easy-way-to-build-complex-alexa-skills-426a6b3ff8bc#0acf).
 
