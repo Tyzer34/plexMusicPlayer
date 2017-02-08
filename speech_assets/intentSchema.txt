@@ -25,14 +25,14 @@
             "intent": "PlexPlayTrackIntent",
           	"slots": [{
               	"name": "track",
-              	"type": "AMAZON.MusicCreativeWorkType"
+              	"type": "AMAZON.MusicRecording"
             }]
         },
         {
             "intent": "PlexPlayTrackByArtistIntent",
             "slots": [{
                 "name": "track",
-                "type": "AMAZON.MusicCreativeWorkType"
+                "type": "AMAZON.MusicRecording"
             },{
                 "name": "artist",
                 "type": "AMAZON.MusicGroup"
@@ -73,14 +73,14 @@
             "intent": "PlexQueueTrackIntent",
             "slots": [{
                 "name": "track",
-                "type": "AMAZON.MusicCreativeWorkType"
+                "type": "AMAZON.MusicRecording"
             }]
         },
         {
             "intent": "PlexQueueTrackByArtistIntent",
             "slots": [{
                 "name": "track",
-                "type": "AMAZON.MusicCreativeWorkType"
+                "type": "AMAZON.MusicRecording"
             },{
                 "name": "artist",
                 "type": "AMAZON.MusicGroup"
