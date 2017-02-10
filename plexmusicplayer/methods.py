@@ -267,6 +267,14 @@ def fuzzy_match(query, media_type):
     dirs = get_music_directories()
     names = get_names_by_first_letter(dirs, query[0].upper(), media_type)
     best_match = process.extractOne(query, names)
+    if best_match[1] < 60 and query.lower().startswith('the '):
+        # dropping 'the ' off of queries where it might have been mistakenly added
+        # (i.e. play the red house painters > red house painters)
+        # the reverse is already handled by plex not sorting on the, los, la, etc...
+        # (i.e. play head and the heart > the head and the heart)
+        query = query[4:]
+        names = get_names_by_first_letter(dirs, query[0].upper(), media_type)
+        best_match = process.extractOne(query, names)
     return best_match[0] if best_match and best_match[1] > 60 else None
 
 
