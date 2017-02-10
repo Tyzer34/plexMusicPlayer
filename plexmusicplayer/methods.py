@@ -249,10 +249,6 @@ def processQuery(query, mediaType):
         # are there numbers that need to be converted?
         if hasNumbers(query):
             json_obj = callPlex(findAndConvertNumberInQuery(query), mediaType)
-    if json_obj['MediaContainer']['@size'] == '0':
-        # should we be contracting spaces?
-        query.replace(" ", "")
-        json_obj = callPlex(query, mediaType)
     if json_obj['MediaContainer']['@size'] == '0' and mediaType.value in ['8', '9']:
         # fuzzy match on albums and artists
         query = fuzzy_match(query, mediaType)
@@ -266,22 +262,20 @@ def processQuery(query, mediaType):
 def fuzzy_match(query, media_type):
     dirs = get_music_directories()
     names = get_names_by_first_letter(dirs, query[0].upper(), media_type)
-    best_match = process.extractOne(query, names)
-    if best_match[1] < 60 and query.lower().startswith('the '):
+    if query.lower().startswith('the '):
         # dropping 'the ' off of queries where it might have been mistakenly added
         # (i.e. play the red house painters > red house painters)
         # the reverse is already handled by plex not sorting on the, los, la, etc...
         # (i.e. play head and the heart > the head and the heart)
-        query = query[4:]
-        names = get_names_by_first_letter(dirs, query[0].upper(), media_type)
-        best_match = process.extractOne(query, names)
+        names.extend(get_names_by_first_letter(dirs, query[4].upper(), media_type))
+    best_match = process.extractOne(query, names)
     return best_match[0] if best_match and best_match[1] > 60 else None
 
 
 def get_music_directories():
     url = "{0}/library/sections/?{1}".format(base_url, plex_token)
     directories = getJsonFromPlex(url)['MediaContainer']['Directory']
-    return [directory['Location']['@id'] for directory in directories if directory and directory['@type'] == 'artist']
+    return [directory['@key'] for directory in directories if directory and directory['@type'] == 'artist']
 
 
 def get_names_by_first_letter(dirs, letter, media_type):
